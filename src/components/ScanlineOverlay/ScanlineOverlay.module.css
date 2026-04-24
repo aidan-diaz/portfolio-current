@@ -1,0 +1,57 @@
+.root {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  pointer-events: none;
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  /* Pair of repeating gradients: thin scanlines + chunkier RGB stripe. */
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.18) 0px,
+      rgba(0, 0, 0, 0.18) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.025) 0px,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  animation: scanlineDrift 6s steps(60, end) infinite;
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  /* Subtle CRT corner darkening — radial gradient with no blur on the inside. */
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.35) 100%
+  );
+  mix-blend-mode: multiply;
+}
+
+@keyframes scanlineDrift {
+  from {
+    background-position: 0 0, 0 0;
+  }
+  to {
+    background-position: 0 3px, 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scanlines {
+    animation: none;
+  }
+}

@@ -1,0 +1,24 @@
+.main {
+  position: relative;
+  z-index: var(--z-content);
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 var(--section-padding-inline);
+}
+
+.section {
+  /* Offset for the sticky navbar so anchor jumps don't hide the heading. */
+  scroll-margin-top: var(--space-9);
+  padding: var(--section-padding-block) 0;
+  border-bottom: var(--border-width-1) var(--border-style)
+    var(--color-bg-raised);
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.sectionInner {
+  /* Placeholder layout — real components will replace this. */
+  min-height: 30vh;
+}
