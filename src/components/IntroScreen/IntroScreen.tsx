@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
-import { useSound } from "../../hooks/useSound";
 import styles from "./IntroScreen.module.css";
 
 const SESSION_KEY = "portfolio:intro-dismissed";
@@ -27,7 +26,6 @@ function readDismissed(): boolean {
  */
 export function IntroScreen() {
   const reducedMotion = useReducedMotion();
-  const { play } = useSound();
 
   const [visible, setVisible] = useState<boolean>(() => !readDismissed());
   const [closing, setClosing] = useState(false);
@@ -47,7 +45,6 @@ export function IntroScreen() {
 
   const dismiss = useCallback(() => {
     if (!visible || closing) return;
-    play("start");
     setClosing(true);
     try {
       window.sessionStorage.setItem(SESSION_KEY, "true");
@@ -57,7 +54,7 @@ export function IntroScreen() {
     // Wait out the fade-out animation before unmounting.
     const ms = reducedMotion ? 0 : 320;
     window.setTimeout(() => setVisible(false), ms);
-  }, [closing, play, reducedMotion, visible]);
+  }, [closing, reducedMotion, visible]);
 
   useEffect(() => {
     if (!visible) return;

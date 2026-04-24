@@ -22,7 +22,7 @@ export const PROJECTS: ReadonlyArray<Project> = [
     description:
       "Team collaboration app that turns standups into quick, async-friendly check-ins. Replace this with the actual project blurb.",
     githubUrl: "https://github.com/aidanldiaz/huddleup",
-    techStack: ["React", "Node", "Postgres"],
+    techStack: ["React", "Node", "Convex"],
   },
   {
     id: "neuroflow",

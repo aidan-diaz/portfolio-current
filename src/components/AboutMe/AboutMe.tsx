@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { PixelAvatar } from "../Hero/PixelAvatar";
+import { Avatar } from "../Avatar/Avatar";
 import styles from "./AboutMe.module.css";
 
-const PHOTO_SRC = "/avatar.png";
+const PHOTO_SRC = "/images/headshot2.jpg";
 const PHOTO_ALT = "Aidan Diaz";
 
 /**
@@ -11,20 +10,9 @@ const PHOTO_ALT = "Aidan Diaz";
  * naturally on first deploy; replace freely.
  */
 const BIO: ReadonlyArray<string> = [
-  "In my previous career, I discovered that helping others succeed is one of the most rewarding aspects of any job. As the primary mentor for onboarding new hires and showing them how to use our newly integrated systems, I learned the importance of patience, clear communication, and adaptability.",
-  "Now, as a software engineer, I bring that same passion for teaching and support to my team. I thrive on late nights spent guiding my colleagues through complex problems and uncovering solutions as a team. I believe that true teamwork is about lifting each other up, and I carry that mindset into every project I work on.",
-  "I'm not only driven by my own growth, but by the growth of my colleagues. I'm excited to bring my collaborative spirit, to take on the challenges of the tech industry with a team that values both individual and collective growth.",
-];
-
-/**
- * "Stats" rendered next to the photo to keep the gamified feel without
- * pretending to be a real RPG sheet. Tweak freely.
- */
-const STATS: ReadonlyArray<{ label: string; value: string }> = [
-  { label: "Class", value: "Software Engineer" },
-  { label: "Power-up", value: "Mentorship" },
-  { label: "Special", value: "Late-night debugging" },
-  { label: "Quest", value: "Team growth" },
+  "As a support services specialist, I managed access control for hundreds of thousands of users, trained teammates, and standardized security protocols. That work taught me where systems create friction and who bears the cost when they fail. As a software engineer, I build tools that fix that. I developed HuddleUp, a full-stack communication platform that unifies messaging, calls, and scheduling so teams can coordinate without switching between tools.",
+  "More recently, I've been building applied AI systems. I integrated LLMs into backend pipelines and fine-tuned models for a multilingual document assistant that processes sensitive legal documents. My focus has been on scam detection and designing evaluation methods that ensure consistent, reliable outputs.",
+  "I build with the end user in mind, especially when the cost of getting it wrong is high. If that's the standard your team holds, reach out.",
 ];
 
 type AboutMeProps = {
@@ -32,8 +20,6 @@ type AboutMeProps = {
 };
 
 export function AboutMe({ headingId }: AboutMeProps) {
-  const [photoFailed, setPhotoFailed] = useState(false);
-
   return (
     <div className={styles.about}>
       <header className={styles.header}>
@@ -47,32 +33,18 @@ export function AboutMe({ headingId }: AboutMeProps) {
 
       <div className={styles.grid}>
         <figure className={styles.photoWrap}>
-          {photoFailed ? (
-            <PixelAvatar />
-          ) : (
-            <img
-              src={PHOTO_SRC}
-              alt={PHOTO_ALT}
-              className={styles.photo}
-              onError={() => setPhotoFailed(true)}
-              loading="lazy"
-              decoding="async"
-            />
-          )}
+          <Avatar
+            src={PHOTO_SRC}
+            alt={PHOTO_ALT}
+            size={null}
+            className={styles.photo}
+          />
           <figcaption className={styles.caption}>
             <span aria-hidden="true">★</span> {PHOTO_ALT}
           </figcaption>
         </figure>
 
         <div className={styles.bio}>
-          <ul className={styles.stats} aria-label="Player stats">
-            {STATS.map((stat) => (
-              <li key={stat.label} className={styles.stat}>
-                <span className={styles.statLabel}>{stat.label}</span>
-                <span className={styles.statValue}>{stat.value}</span>
-              </li>
-            ))}
-          </ul>
 
           {BIO.map((paragraph, i) => (
             <p key={i} className={styles.paragraph}>

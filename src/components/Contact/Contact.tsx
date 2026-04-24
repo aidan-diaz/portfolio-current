@@ -3,7 +3,6 @@ import type { FormEvent } from "react";
 import { PixelButton } from "../PixelButton/PixelButton";
 import { SocialLinks } from "../SocialLinks/SocialLinks";
 import { SOCIAL_LINKS } from "../../data/socials";
-import { useSound } from "../../hooks/useSound";
 import styles from "./Contact.module.css";
 
 const FORM_NAME = "contact";
@@ -46,7 +45,6 @@ export function Contact({ headingId }: ContactProps) {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
-  const { play } = useSound();
 
   const emailLink = SOCIAL_LINKS.find((l) => l.id === "email");
 
@@ -72,11 +70,9 @@ export function Contact({ headingId }: ContactProps) {
       if (!response.ok) {
         throw new Error(`Server responded ${response.status}`);
       }
-      play("success");
       setStatus("success");
       setForm(INITIAL);
     } catch (err) {
-      play("error");
       const msg =
         err instanceof Error ? err.message : "Something went wrong.";
       setError(msg);
@@ -197,7 +193,6 @@ export function Contact({ headingId }: ContactProps) {
                 variant="ghost"
                 size="md"
                 aria-label="Send an email instead"
-                silent
               >
                 or email me directly
               </PixelButton>

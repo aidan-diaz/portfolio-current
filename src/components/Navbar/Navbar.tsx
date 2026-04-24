@@ -1,4 +1,3 @@
-import { SoundToggle } from "../SoundToggle/SoundToggle";
 import styles from "./Navbar.module.css";
 
 type NavLink = {
@@ -16,10 +15,10 @@ const NAV_LINKS: ReadonlyArray<NavLink> = [
 /**
  * Sticky retro pixel navbar.
  *
- * Renders the brand mark, anchor links to each main section, and the global
- * SoundToggle. Uses a semantic <header> + <nav> so screen readers can jump
- * straight to navigation, and a "skip to content" link is provided as the
- * first focusable element for keyboard users.
+ * Renders the brand mark and anchor links to each main section. Uses a
+ * semantic <header> + <nav> so screen readers can jump straight to
+ * navigation, and a "skip to content" link is provided as the first
+ * focusable element for keyboard users.
  */
 export function Navbar() {
   return (
@@ -46,10 +45,6 @@ export function Navbar() {
             ))}
           </ul>
         </nav>
-
-        <div className={styles.actions}>
-          <SoundToggle />
-        </div>
       </div>
     </header>
   );

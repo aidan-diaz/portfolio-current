@@ -38,19 +38,12 @@
   margin: 0;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   gap: var(--space-2);
-  border: var(--border-width-3) var(--border-style) var(--color-border);
-  background: var(--color-bg-raised);
-  padding: var(--space-3);
-  box-shadow: var(--shadow-pixel-md);
 }
 
 .photo {
   width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  display: block;
-  background: var(--color-bg-sunken);
 }
 
 .caption {

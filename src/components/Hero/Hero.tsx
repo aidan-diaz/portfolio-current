@@ -1,5 +1,5 @@
 import { PixelButton } from "../PixelButton/PixelButton";
-import { PixelAvatar } from "./PixelAvatar";
+import { Avatar } from "../Avatar/Avatar";
 import { SocialLinks } from "../SocialLinks/SocialLinks";
 import styles from "./Hero.module.css";
 
@@ -7,14 +7,14 @@ import styles from "./Hero.module.css";
  * Top-of-page hero / introduction section.
  *
  * Holds the big pixel title, a 1–2 sentence tagline (edit `TAGLINE` below),
- * a pixel avatar sprite, the primary "View my work" CTA, and a row of
- * social links. The whole block lives inside the existing #intro section
- * anchor so the navbar still scrolls here.
+ * a framed headshot, the primary "View my work" CTA, and a row of social
+ * links. The whole block lives inside the existing #intro section anchor
+ * so the navbar still scrolls here.
  */
 const TITLE = "AIDAN DIAZ";
 const TAGLINE =
-  "Software engineer building thoughtful, accessible web experiences. " +
-  "Welcome to my arcade — pick a quest from the menu below.";
+  "AI Software engineer building thoughtful, accessible web experiences. " +
+  "Welcome to my arcade — see my projects below.";
 
 type HeroProps = {
   headingId: string;
@@ -50,7 +50,7 @@ export function Hero({ headingId }: HeroProps) {
       </div>
 
       <div className={styles.avatarWrap}>
-        <PixelAvatar />
+        <Avatar src="/images/headshot.jpg" alt="Portrait of Aidan Diaz" size="md" />
       </div>
     </div>
   );

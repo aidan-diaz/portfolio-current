@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { SOCIAL_LINKS } from "../../data/socials";
-import { useSound } from "../../hooks/useSound";
 import type { SocialId } from "../../types";
 import styles from "./SocialLinks.module.css";
 
@@ -24,8 +23,6 @@ export function SocialLinks({
   className,
   label = "Social links",
 }: SocialLinksProps) {
-  const { play } = useSound();
-
   return (
     <ul
       className={[styles.list, styles[`size_${size}`], className]
@@ -46,8 +43,6 @@ export function SocialLinks({
             }
             aria-label={link.description}
             title={link.description}
-            onMouseEnter={() => play("hover")}
-            onClick={() => play("click")}
           >
             <span aria-hidden="true" className={styles.icon}>
               <SocialIcon id={link.id} />

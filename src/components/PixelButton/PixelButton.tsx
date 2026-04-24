@@ -3,7 +3,6 @@ import type {
   ButtonHTMLAttributes,
   ReactNode,
 } from "react";
-import { useSound } from "../../hooks/useSound";
 import styles from "./PixelButton.module.css";
 
 type Variant = "primary" | "secondary" | "ghost";
@@ -15,8 +14,6 @@ type CommonProps = {
   size?: Size;
   iconLeft?: ReactNode;
   iconRight?: ReactNode;
-  /** Disables the SFX for this button only (useful inside forms or on quiet pages). */
-  silent?: boolean;
 };
 
 type ButtonProps = CommonProps &
@@ -36,7 +33,6 @@ export type PixelButtonProps = ButtonProps | AnchorProps;
  * Chunky retro button with a hard offset shadow.
  *
  * Polymorphic: renders as a <button> by default, or an <a> when `as="a"`.
- * Plays a hover/click SFX through the global sound layer (no-op when muted).
  */
 export function PixelButton(props: PixelButtonProps) {
   const {
@@ -45,12 +41,9 @@ export function PixelButton(props: PixelButtonProps) {
     size = "md",
     iconLeft,
     iconRight,
-    silent = false,
     className,
     ...rest
   } = props;
-
-  const { play } = useSound();
 
   const classes = [
     styles.btn,
@@ -61,29 +54,10 @@ export function PixelButton(props: PixelButtonProps) {
     .filter(Boolean)
     .join(" ");
 
-  const onPointerEnter = () => {
-    if (!silent) play("hover");
-  };
-  const onClickAudio = () => {
-    if (!silent) play("click");
-  };
-
   if (props.as === "a") {
-    const { onMouseEnter, onClick, ...anchorRest } =
-      rest as AnchorHTMLAttributes<HTMLAnchorElement>;
+    const anchorRest = rest as AnchorHTMLAttributes<HTMLAnchorElement>;
     return (
-      <a
-        className={classes}
-        onMouseEnter={(e) => {
-          onPointerEnter();
-          onMouseEnter?.(e);
-        }}
-        onClick={(e) => {
-          onClickAudio();
-          onClick?.(e);
-        }}
-        {...anchorRest}
-      >
+      <a className={classes} {...anchorRest}>
         <ButtonInner iconLeft={iconLeft} iconRight={iconRight}>
           {children}
         </ButtonInner>
@@ -91,23 +65,11 @@ export function PixelButton(props: PixelButtonProps) {
     );
   }
 
-  const { onMouseEnter, onClick, type = "button", ...buttonRest } =
+  const { type = "button", ...buttonRest } =
     rest as ButtonHTMLAttributes<HTMLButtonElement>;
 
   return (
-    <button
-      type={type}
-      className={classes}
-      onMouseEnter={(e) => {
-        onPointerEnter();
-        onMouseEnter?.(e);
-      }}
-      onClick={(e) => {
-        onClickAudio();
-        onClick?.(e);
-      }}
-      {...buttonRest}
-    >
+    <button type={type} className={classes} {...buttonRest}>
       <ButtonInner iconLeft={iconLeft} iconRight={iconRight}>
         {children}
       </ButtonInner>
