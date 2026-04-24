@@ -1,0 +1,67 @@
+.list {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: inline-flex;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-raised);
+  border: var(--border-width-2) var(--border-style) var(--color-border);
+  box-shadow: var(--shadow-pixel-sm);
+  color: var(--color-fg);
+  text-decoration: none;
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-fast), color var(--transition-fast),
+    background-color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.size_sm .link {
+  width: 32px;
+  height: 32px;
+}
+
+.size_md .link {
+  width: 44px;
+  height: 44px;
+}
+
+.link:hover,
+.link:focus-visible {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border-color: var(--color-accent-strong);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 0 var(--color-shadow);
+}
+
+.link:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 0 var(--color-shadow);
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.size_sm .icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.size_md .icon svg {
+  width: 24px;
+  height: 24px;
+}

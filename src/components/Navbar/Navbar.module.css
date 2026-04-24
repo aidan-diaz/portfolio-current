@@ -97,12 +97,15 @@
 }
 
 .link {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-display);
   font-size: 0.625rem; /* 10px nav items */
   letter-spacing: var(--letter-spacing-display);
   color: var(--color-fg);
   text-decoration: none;
-  padding: var(--space-2) var(--space-2);
+  padding: var(--space-3) var(--space-3);
+  min-height: 44px; /* WCAG 2.5.5 target size — comfy for touch + large cursors */
   border-bottom: var(--border-width-1) var(--border-style) transparent;
   transition: color var(--transition-fast),
     border-color var(--transition-fast);

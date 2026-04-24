@@ -1,0 +1,20 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA fallback — every unknown route falls back to index.html so deep links
+# (e.g. /portfolio shared via the navbar anchor target) still hit the app.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Long-lived cache for hashed Vite assets; HTML stays uncached so deploys
+# pick up the latest entry chunks immediately.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

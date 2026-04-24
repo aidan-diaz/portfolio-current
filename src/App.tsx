@@ -1,41 +1,40 @@
+import type { ReactNode } from "react";
+import { AboutMe } from "./components/AboutMe/AboutMe";
+import { Contact } from "./components/Contact/Contact";
 import { Footer } from "./components/Footer/Footer";
+import { Hero } from "./components/Hero/Hero";
+import { IntroScreen } from "./components/IntroScreen/IntroScreen";
 import { Navbar } from "./components/Navbar/Navbar";
+import { Portfolio } from "./components/Portfolio/Portfolio";
 import { ScanlineOverlay } from "./components/ScanlineOverlay/ScanlineOverlay";
+import { SectionTransition } from "./components/SectionTransition/SectionTransition";
 import styles from "./App.module.css";
 
 /**
- * App shell: sticky Navbar + main content with anchored sections + Footer.
+ * App shell.
  *
- * Each <section> renders a placeholder dialog box for now; subsequent tasks
- * will replace the contents with the real Hero, Portfolio, About, and
- * Contact components. The IDs and aria-labelledby wiring stay stable so the
- * Navbar anchors keep working as those land.
+ * Order: IntroScreen overlay (mounts on top until dismissed) → Navbar →
+ * <main> with the four anchored sections (Hero, Portfolio, AboutMe, Contact)
+ * → Footer → ScanlineOverlay (CRT effect, pinned to viewport).
  */
 export default function App() {
   return (
     <>
+      <IntroScreen />
       <Navbar />
       <main id="main-content" className={styles.main}>
-        <SectionPlaceholder
-          id="intro"
-          title="Intro"
-          note="Hero section coming soon."
-        />
-        <SectionPlaceholder
-          id="portfolio"
-          title="Portfolio"
-          note="Project grid coming soon."
-        />
-        <SectionPlaceholder
-          id="about"
-          title="About Me"
-          note="Bio + pixel avatar coming soon."
-        />
-        <SectionPlaceholder
-          id="contact"
-          title="Contact"
-          note="Netlify form + socials coming soon."
-        />
+        <SectionShell id="intro">
+          {(headingId) => <Hero headingId={headingId} />}
+        </SectionShell>
+        <SectionShell id="portfolio">
+          {(headingId) => <Portfolio headingId={headingId} />}
+        </SectionShell>
+        <SectionShell id="about">
+          {(headingId) => <AboutMe headingId={headingId} />}
+        </SectionShell>
+        <SectionShell id="contact">
+          {(headingId) => <Contact headingId={headingId} />}
+        </SectionShell>
       </main>
       <Footer />
       <ScanlineOverlay />
@@ -43,20 +42,28 @@ export default function App() {
   );
 }
 
-type SectionPlaceholderProps = {
+type SectionShellProps = {
   id: string;
-  title: string;
-  note: string;
+  children: (headingId: string) => ReactNode;
 };
 
-function SectionPlaceholder({ id, title, note }: SectionPlaceholderProps) {
+/**
+ * Adds the consistent `<section>` wrapper + `aria-labelledby` plumbing and
+ * the framer-motion enter transition. Section content components own their
+ * own heading; we just thread the heading id down so they can render the
+ * matching id on their h2.
+ */
+function SectionShell({ id, children }: SectionShellProps) {
   const headingId = `${id}-heading`;
   return (
-    <section id={id} aria-labelledby={headingId} className={styles.section}>
-      <div className={styles.sectionInner}>
-        <h2 id={headingId}>{title}</h2>
-        <p>{note}</p>
-      </div>
-    </section>
+    <SectionTransition>
+      <section
+        id={id}
+        aria-labelledby={headingId}
+        className={styles.section}
+      >
+        <div className={styles.sectionInner}>{children(headingId)}</div>
+      </section>
+    </SectionTransition>
   );
 }

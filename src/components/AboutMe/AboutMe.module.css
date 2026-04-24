@@ -1,0 +1,116 @@
+.about {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.625rem;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-magenta);
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-fg);
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 320px) 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.photoWrap {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border: var(--border-width-3) var(--border-style) var(--color-border);
+  background: var(--color-bg-raised);
+  padding: var(--space-3);
+  box-shadow: var(--shadow-pixel-md);
+}
+
+.photo {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  background: var(--color-bg-sunken);
+}
+
+.caption {
+  font-family: var(--font-display);
+  font-size: 0.625rem;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-yellow);
+  text-align: center;
+}
+
+.bio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  padding: var(--space-3);
+  list-style: none;
+  background: var(--color-bg-sunken);
+  border: var(--border-width-2) var(--border-style) var(--color-border);
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statLabel {
+  font-family: var(--font-display);
+  font-size: 0.5rem; /* 8px */
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-fg-muted);
+  text-transform: uppercase;
+}
+
+.statValue {
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-md);
+  color: var(--color-accent);
+}
+
+.paragraph {
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-lg);
+  color: var(--color-fg);
+  margin: 0;
+  max-width: 65ch;
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .photoWrap {
+    max-width: 280px;
+  }
+}
