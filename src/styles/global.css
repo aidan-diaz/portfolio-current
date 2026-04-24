@@ -1,4 +1,9 @@
-/* Base resets and global typography. Retro design tokens land in tokens.css in a later task. */
+/*
+ * Global resets + base typography.
+ * Tokens are defined in tokens.css and consumed below via CSS variables.
+ */
+@import "./tokens.css";
+
 *,
 *::before,
 *::after {
@@ -13,20 +18,128 @@ body,
   min-height: 100%;
 }
 
+html {
+  /* Anchor scrolling for nav links; disabled when user prefers reduced motion. */
+  scroll-behavior: smooth;
+  background: var(--color-bg);
+}
+
 body {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  background: #0f0f1b;
-  color: #f4f1de;
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-md);
+  line-height: var(--line-height-normal);
+  background: var(--color-bg);
+  color: var(--color-fg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
-img {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: var(--letter-spacing-display);
+  line-height: var(--line-height-tight);
+  margin: 0 0 var(--space-4);
+}
+
+h1 {
+  font-size: var(--font-size-display-xl);
+}
+h2 {
+  font-size: var(--font-size-display-lg);
+}
+h3 {
+  font-size: var(--font-size-display-md);
+}
+h4,
+h5,
+h6 {
+  font-size: var(--font-size-display-sm);
+}
+
+p {
+  margin: 0 0 var(--space-4);
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
   max-width: 100%;
   display: block;
+  /* Crisp scaled pixel art everywhere by default. */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 a {
+  color: var(--color-accent);
+  text-decoration-thickness: var(--border-width-1);
+  text-underline-offset: 0.15em;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--color-accent-strong);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
   color: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Visible keyboard focus — pixel outline, no blur. */
+:focus-visible {
+  outline: var(--border-width-2) var(--border-style) var(--color-accent);
+  outline-offset: var(--border-width-1);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* Screen-reader-only utility for accessible labels. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Respect reduced-motion: disable smooth scroll and most animation. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
