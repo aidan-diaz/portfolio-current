@@ -30,7 +30,7 @@ portfolio-current/
   public/
     images/                # headshots and other portrait assets (Avatar component reads from here)
     projects/              # project thumbnails (optional — placeholder used if missing)
-    favicon.png
+    favicon.svg            # pixel-art "AD" favicon (16x16 grid, PS2 palette)
   src/
     main.tsx               # bootstraps React
     App.tsx                # shell: IntroScreen + Navbar + sections + Footer + ScanlineOverlay
