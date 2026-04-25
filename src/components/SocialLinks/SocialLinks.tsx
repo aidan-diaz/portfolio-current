@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import { SOCIAL_LINKS } from "../../data/socials";
 import type { SocialId } from "../../types";
 import styles from "./SocialLinks.module.css";
@@ -17,12 +18,54 @@ type SocialLinksProps = {
  *
  * Reused in the hero, contact section, and footer. Data comes from
  * src/data/socials.ts so the URLs live in one place.
+ *
+ * The email icon copies the address to the clipboard on click and shows a
+ * small confirmation tooltip. We still set `href="mailto:..."` so users with
+ * a desktop mail client get the native compose window — but on systems
+ * without one (a common case on Windows + browser-only Gmail users), the
+ * clipboard fallback ensures the click is never a no-op.
  */
 export function SocialLinks({
   size = "md",
   className,
   label = "Social links",
 }: SocialLinksProps) {
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const resetTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (resetTimerRef.current !== null) {
+        window.clearTimeout(resetTimerRef.current);
+      }
+    };
+  }, []);
+
+  function handleEmailClick(
+    event: MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) {
+    const email = href.replace(/^mailto:/, "");
+    if (!email) return;
+    if (navigator.clipboard?.writeText) {
+      // Fire-and-forget: we don't want to block mailto: navigation if it
+      // happens to resolve. If the copy fails (e.g., insecure context),
+      // we still let the anchor's default mailto behavior run.
+      navigator.clipboard.writeText(email).catch(() => {});
+    }
+    setCopiedEmail(true);
+    if (resetTimerRef.current !== null) {
+      window.clearTimeout(resetTimerRef.current);
+    }
+    resetTimerRef.current = window.setTimeout(() => {
+      setCopiedEmail(false);
+      resetTimerRef.current = null;
+    }, 2000);
+    // Intentionally do NOT preventDefault — users with a configured mail
+    // client still get their native compose window.
+    void event;
+  }
+
   return (
     <ul
       className={[styles.list, styles[`size_${size}`], className]
@@ -30,27 +73,43 @@ export function SocialLinks({
         .join(" ")}
       aria-label={label}
     >
-      {SOCIAL_LINKS.map((link) => (
-        <li key={link.id} className={styles.item}>
-          <a
-            className={styles.link}
-            href={link.href}
-            target={link.href.startsWith("mailto:") ? undefined : "_blank"}
-            rel={
-              link.href.startsWith("mailto:")
-                ? undefined
-                : "noopener noreferrer"
-            }
-            aria-label={link.description}
-            title={link.description}
-          >
-            <span aria-hidden="true" className={styles.icon}>
-              <SocialIcon id={link.id} />
-            </span>
-            <span className="sr-only">{link.label}</span>
-          </a>
-        </li>
-      ))}
+      {SOCIAL_LINKS.map((link) => {
+        const isMailto = link.href.startsWith("mailto:");
+        const showCopied = isMailto && copiedEmail;
+        return (
+          <li key={link.id} className={styles.item}>
+            <a
+              className={styles.link}
+              href={link.href}
+              target={isMailto ? undefined : "_blank"}
+              rel={isMailto ? undefined : "noopener noreferrer"}
+              aria-label={
+                isMailto
+                  ? `${link.description} (also copies the address)`
+                  : link.description
+              }
+              title={link.description}
+              onClick={
+                isMailto ? (e) => handleEmailClick(e, link.href) : undefined
+              }
+            >
+              <span aria-hidden="true" className={styles.icon}>
+                <SocialIcon id={link.id} />
+              </span>
+              <span className="sr-only">{link.label}</span>
+            </a>
+            {showCopied ? (
+              <span
+                className={styles.copiedToast}
+                role="status"
+                aria-live="polite"
+              >
+                Copied!
+              </span>
+            ) : null}
+          </li>
+        );
+      })}
     </ul>
   );
 }
