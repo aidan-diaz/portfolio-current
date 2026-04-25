@@ -33,7 +33,7 @@ export const PROJECTS: ReadonlyArray<Project> = [
     id: "nanochat",
     title: "nanochat",
     description:
-      "Lightweight chat playground for training and serving tiny language models from scratch. Replace this with the actual project blurb.",
+      "A self-hosted, ChatGPT-style web app built on top of Karpathy's nanochat, featuring a small language model. Trained end-to-end from scratch on Nebius cloud GPUs.",
     icon: "/images/nanochat.png",
     githubUrl: "https://github.com/aidan-diaz/nanochat-nebius",
     techStack: ["Python", "PyTorch", "Flask"],
