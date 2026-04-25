@@ -24,7 +24,7 @@ export function AboutMe({ headingId }: AboutMeProps) {
     <div className={styles.about}>
       <header className={styles.header}>
         <p className={styles.eyebrow} aria-hidden="true">
-          ▶ PLAYER PROFILE
+          ▶ PROFILE
         </p>
         <h2 id={headingId} className={styles.title}>
           About Me

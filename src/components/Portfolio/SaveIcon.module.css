@@ -1,0 +1,93 @@
+/*
+ * SaveIcon — the single source of truth for "what does a project icon look like."
+ *
+ * The component swaps between three motion modes by toggling the .bob, .spin,
+ * or .static class on the inner .icon element. The outer .stage owns the
+ * `perspective` so the spin mode reads as a low-poly, faceted 3D rotation.
+ *
+ * All colors come from theme tokens, so the icons restyle for free when
+ * --color-accent / --color-fg / etc. change between PS1 (light) and PS2 (dark).
+ */
+
+.stage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 600px;
+}
+
+.sm {
+  width: 32px;
+  height: 32px;
+}
+
+.lg {
+  width: 80px;
+  height: 80px;
+}
+
+.icon {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: center;
+  transform-style: preserve-3d;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ----- Animations ----------------------------------------------------- */
+
+/* Chunky 2-frame bob — feels like a cursor pulsing in a PS2 menu. */
+.bob {
+  animation: saveIconBob 1.6s steps(2, end) infinite;
+}
+
+@keyframes saveIconBob {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* 12-step Y rotation — flat SVG facets through 360deg, mimicking the
+ * blocky, low-poly spinning saves on the real PS2 memory-card screen. */
+.spin {
+  animation: saveIconSpin 4s steps(12, end) infinite;
+}
+
+@keyframes saveIconSpin {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+/* Reduced-motion: stop the icon dead-on, no bob, no spin. The static face
+ * is what users see — same SVG, just not animated. */
+@media (prefers-reduced-motion: reduce) {
+  .bob,
+  .spin {
+    animation: none;
+    transform: none;
+  }
+}

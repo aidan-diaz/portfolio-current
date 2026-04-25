@@ -1,0 +1,81 @@
+/*
+ * MemoryCardTile — one square save slot on the PS2 memory-card grid.
+ *
+ * Visually: a chunky-bordered, square button with a bobbing icon stacked
+ * above the project title in the display font. The hover/focus state
+ * pulls the tile up + paints an accent-colored hard shadow to mirror the
+ * "lifted off the shelf" feel from the previous jewel-case card, minus
+ * the rotation (a memory card slot is grid-aligned — no tilt).
+ *
+ * All colors come from theme tokens, so PS1 (light) and PS2 (dark) skin
+ * the tile for free.
+ */
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  padding: var(--space-3);
+
+  background: var(--color-bg-raised);
+  color: var(--color-fg);
+  border: var(--border-width-2) var(--border-style) var(--color-border);
+  box-shadow: var(--shadow-pixel-md);
+
+  font-family: inherit;
+  cursor: pointer;
+  user-select: none;
+
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-fast), border-color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+/* "Cursor lands on this slot" feel: pull up-left, swap to accent shadow. */
+.tile:hover,
+.tile:focus-visible {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 var(--color-accent);
+  border-color: var(--color-accent);
+  background: var(--color-bg-sunken);
+}
+
+.tile:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 0 var(--color-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile {
+    transition: none;
+  }
+}
+
+.iconSlot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 0.5rem; /* 8px — keeps the title legible inside a small square slot */
+  line-height: var(--line-height-snug);
+  letter-spacing: var(--letter-spacing-display);
+  text-transform: uppercase;
+  text-align: center;
+  color: inherit;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  word-break: break-word;
+}

@@ -16,6 +16,12 @@ export type Project = {
   liveUrl?: string;
   /** Optional "stat chip" list — gives a gamified feel ("LV. React", "LV. TS", ...). */
   techStack?: string[];
+  /** Decorative jewel-case genre label, e.g. "COOPERATIVE", "PRODUCTIVITY", "PUZZLE". Falls back to "WEB APP". */
+  genre?: string;
+  /** Decorative ESRB-style rating, e.g. "E", "T", "DEV". Falls back to "DEV". */
+  rating?: string;
+  /** Path to a square icon under /public (e.g. "/projects/huddleup-icon.png"). Falls back to a per-genre pixel-art placeholder. */
+  icon?: string;
 };
 
 export type SocialId = "github" | "linkedin" | "email" | "twitter";

@@ -1,0 +1,225 @@
+/*
+ * ProjectDetailModal — full project details, dressed as a PS2 memory-card
+ * "load save" panel.
+ *
+ * Layout: a single fixed-position root that hosts the dim backdrop and a
+ * centered .panel. The panel reads top-to-bottom as
+ *   header strip → spinning icon stage → title → sub-meta row →
+ *   description → disc-bullet tech list → action buttons → button-hint
+ *   footer.
+ *
+ * All colors come from theme tokens, so the PS1 (light) and PS2 (dark)
+ * palettes restyle the modal for free.
+ */
+
+.root {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-5);
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--color-bg-sunken);
+  /* Sunken token already reads as "behind glass" in both themes; layered
+   * opacity sells the dimmed-overlay vibe without introducing a new token. */
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(440px, 100%);
+  max-height: calc(100vh - var(--space-7));
+  overflow-y: auto;
+
+  background: var(--color-bg-raised);
+  color: var(--color-fg);
+  border: var(--border-width-2) var(--border-style) var(--color-border);
+  box-shadow: var(--shadow-pixel-lg);
+}
+
+/* ----- Header strip --------------------------------------------------- */
+
+.headerStrip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border-bottom: var(--border-width-2) var(--border-style) var(--color-border);
+
+  font-family: var(--font-display);
+  font-size: 0.625rem; /* 10px */
+  letter-spacing: var(--letter-spacing-display);
+  text-transform: uppercase;
+}
+
+.headerLabel {
+  display: inline-flex;
+  align-items: center;
+}
+
+.headerCode {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-1);
+  background: var(--color-bg);
+  color: var(--color-accent);
+  border: var(--border-width-1) var(--border-style) var(--color-bg);
+  font-size: 0.5rem; /* 8px */
+  line-height: 1;
+}
+
+/* ----- Icon stage ----------------------------------------------------- */
+
+.iconStage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6) var(--space-4) var(--space-4);
+  background: var(--color-bg-sunken);
+  border-bottom: var(--border-width-2) var(--border-style) var(--color-border);
+  /* The SaveIcon stage owns its own perspective for the spin facets, but
+   * a small bottom shadow inside the stage gives the icon a "platform"
+   * feel reminiscent of the PS2 save preview tray. */
+  box-shadow: inset 0 -8px 0 0 var(--color-bg);
+}
+
+/* ----- Title + sub-meta ---------------------------------------------- */
+
+.title {
+  margin: 0;
+  padding: var(--space-4) var(--space-4) var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--font-size-display-md);
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-fg);
+}
+
+.subMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0 var(--space-4) var(--space-3);
+}
+
+.ratingBox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  background: var(--color-bg);
+  border: var(--border-width-1) var(--border-style) var(--color-accent);
+  color: var(--color-accent);
+  font-family: var(--font-display);
+  font-size: 0.5rem; /* 8px */
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.genreLabel {
+  font-family: var(--font-display);
+  font-size: 0.625rem; /* 10px */
+  letter-spacing: var(--letter-spacing-display);
+  text-transform: uppercase;
+  color: var(--color-fg);
+}
+
+.genrePrefix {
+  color: var(--color-fg-muted);
+}
+
+/* ----- Description --------------------------------------------------- */
+
+.description {
+  margin: 0;
+  padding: 0 var(--space-4) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-md);
+  line-height: var(--line-height-normal);
+  color: var(--color-fg-muted);
+}
+
+/* ----- Tech stack (disc-bullet list) --------------------------------- */
+
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin: 0;
+  padding: 0 var(--space-4) var(--space-4);
+  list-style: none;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-display);
+  font-size: 0.5rem; /* 8px */
+  letter-spacing: var(--letter-spacing-display);
+  text-transform: uppercase;
+  color: var(--color-fg);
+}
+
+.discIcon {
+  display: block;
+  flex: none;
+  width: 10px;
+  height: 10px;
+}
+
+/* ----- Actions ------------------------------------------------------- */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+/* ----- Footer hint strip --------------------------------------------- */
+
+.hints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg-sunken);
+  border-top: var(--border-width-2) var(--border-style) var(--color-border);
+
+  font-family: var(--font-display);
+  font-size: 0.5rem; /* 8px */
+  letter-spacing: var(--letter-spacing-display);
+  text-transform: uppercase;
+  color: var(--color-fg-muted);
+}
+
+.hints span {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ----- Reduced motion ------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    /* No entry/exit animation today, but lock down anything CSS-cascaded. */
+    transition: none;
+  }
+}
