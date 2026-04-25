@@ -10,25 +10,25 @@ export const SOCIAL_LINKS: ReadonlyArray<SocialLink> = [
   {
     id: "github",
     label: "GitHub",
-    href: "https://github.com/aidanldiaz",
+    href: "https://github.com/aidan-diaz/",
     description: "GitHub profile",
   },
   {
     id: "linkedin",
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/aidan-diaz/",
+    href: "https://www.linkedin.com/in/aidan--diaz/",
     description: "LinkedIn profile",
   },
   {
     id: "email",
     label: "Email",
-    href: "mailto:aidanldiaz@gmail.com",
+    href: "mailto:diaz.aidan.d@gmail.com",
     description: "Send an email",
   },
   {
     id: "twitter",
     label: "Twitter",
-    href: "https://twitter.com/",
+    href: "https://x.com/Aidan__Diaz",
     description: "Twitter profile",
   },
   {
