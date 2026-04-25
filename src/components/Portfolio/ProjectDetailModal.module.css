@@ -4,9 +4,8 @@
  *
  * Layout: a single fixed-position root that hosts the dim backdrop and a
  * centered .panel. The panel reads top-to-bottom as
- *   header strip → spinning icon stage → title → sub-meta row →
- *   description → disc-bullet tech list → action buttons → button-hint
- *   footer.
+ *   header strip → spinning icon stage → title → description →
+ *   disc-bullet tech list → action buttons → button-hint footer.
  *
  * All colors come from theme tokens, so the PS1 (light) and PS2 (dark)
  * palettes restyle the modal for free.
@@ -83,6 +82,8 @@
 /* ----- Icon stage ----------------------------------------------------- */
 
 .iconStage {
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,52 +96,35 @@
   box-shadow: inset 0 -8px 0 0 var(--color-bg);
 }
 
-/* ----- Title + sub-meta ---------------------------------------------- */
+/* Full project screenshot dimmed behind the spinning save-crop, so the
+ * 12-step Y-rotation briefly goes edge-on each cycle and reveals the
+ * underlying preview — sells the "save model floating in a preview" feel. */
+.iconStageBackdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  image-rendering: pixelated;
+  opacity: 0.55;
+  filter: saturate(0.8);
+  pointer-events: none;
+}
+
+.iconStageForeground {
+  position: relative;
+  z-index: 1;
+}
+
+/* ----- Title --------------------------------------------------------- */
 
 .title {
   margin: 0;
-  padding: var(--space-4) var(--space-4) var(--space-2);
+  padding: var(--space-4) var(--space-4) var(--space-3);
   font-family: var(--font-display);
   font-size: var(--font-size-display-md);
   letter-spacing: var(--letter-spacing-display);
   color: var(--color-fg);
-}
-
-.subMeta {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  margin: 0;
-  padding: 0 var(--space-4) var(--space-3);
-}
-
-.ratingBox {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  padding: 0;
-  background: var(--color-bg);
-  border: var(--border-width-1) var(--border-style) var(--color-accent);
-  color: var(--color-accent);
-  font-family: var(--font-display);
-  font-size: 0.5rem; /* 8px */
-  line-height: 1;
-  letter-spacing: 0;
-  text-transform: uppercase;
-}
-
-.genreLabel {
-  font-family: var(--font-display);
-  font-size: 0.625rem; /* 10px */
-  letter-spacing: var(--letter-spacing-display);
-  text-transform: uppercase;
-  color: var(--color-fg);
-}
-
-.genrePrefix {
-  color: var(--color-fg-muted);
 }
 
 /* ----- Description --------------------------------------------------- */
@@ -210,9 +194,40 @@
   color: var(--color-fg-muted);
 }
 
-.hints span {
+/* Shared base for the three hint variants (<a>, <button>, disabled <span>).
+ * Resets the default browser styling on each so they render identically and
+ * inherit the .hints typography + muted color tokens. */
+.hint {
   display: inline-flex;
   align-items: center;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.hint:hover,
+.hint:focus-visible {
+  color: var(--color-fg);
+}
+
+.hint:focus-visible {
+  outline: 2px var(--border-style) var(--color-accent);
+  outline-offset: 2px;
+}
+
+.hintDisabled,
+.hintDisabled:hover,
+.hintDisabled:focus-visible {
+  color: inherit;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* ----- Reduced motion ------------------------------------------------ */

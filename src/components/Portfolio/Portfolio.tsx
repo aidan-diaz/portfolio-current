@@ -70,12 +70,6 @@ export function Portfolio({ headingId }: PortfolioProps) {
               </li>
             ))}
           </ul>
-
-          <div className={styles.footerHints} aria-hidden="true">
-            <span>X SELECT</span>
-            <span>O CLOSE</span>
-            <span>△ LIVE SITE</span>
-          </div>
         </div>
       )}
 

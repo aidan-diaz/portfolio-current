@@ -34,9 +34,8 @@ type ProjectDetailModalProps = {
  *   - Escape and backdrop click both invoke `onClose()`.
  *
  * The visible structure mirrors a real PS2 save inspector: header strip,
- * spinning low-poly icon stage, title, sub-meta row (rating + genre),
- * description, optional disc-bullet tech list, action buttons, and a
- * decorative button-hint footer.
+ * spinning low-poly icon stage, title, description, optional disc-bullet
+ * tech list, action buttons, and a decorative button-hint footer.
  */
 export function ProjectDetailModal({
   project,
@@ -47,8 +46,6 @@ export function ProjectDetailModal({
   const panelRef = useRef<HTMLDivElement | null>(null);
 
   const catalogCode = `AD-${String(index).padStart(3, "0")}`;
-  const genreLabel = project.genre ?? "WEB APP";
-  const ratingLabel = project.rating ?? "DEV";
 
   useEffect(() => {
     const previouslyFocused = document.activeElement as HTMLElement | null;
@@ -74,9 +71,21 @@ export function ProjectDetailModal({
     closeButton?.focus();
 
     function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") {
+      if (event.ctrlKey || event.metaKey || event.altKey) return;
+      const key = event.key.toLowerCase();
+      if (key === "escape" || key === "o") {
         event.stopPropagation();
         onClose();
+        return;
+      }
+      if (key === "x") {
+        event.stopPropagation();
+        window.open(project.githubUrl, "_blank", "noopener,noreferrer");
+        return;
+      }
+      if (key === "t" && project.liveUrl) {
+        event.stopPropagation();
+        window.open(project.liveUrl, "_blank", "noopener,noreferrer");
       }
     }
     document.addEventListener("keydown", handleKeyDown);
@@ -87,7 +96,7 @@ export function ProjectDetailModal({
       inertedSiblings.forEach((el) => el.removeAttribute("inert"));
       previouslyFocused?.focus?.();
     };
-  }, [onClose]);
+  }, [onClose, project.githubUrl, project.liveUrl]);
 
   const dialog = (
     <div className={styles.root}>
@@ -109,21 +118,22 @@ export function ProjectDetailModal({
         </header>
 
         <div className={styles.iconStage}>
-          <SaveIcon project={project} mode="spin" size="lg" />
+          {project.icon ? (
+            <img
+              className={styles.iconStageBackdrop}
+              src={project.icon}
+              alt=""
+              aria-hidden="true"
+            />
+          ) : null}
+          <div className={styles.iconStageForeground}>
+            <SaveIcon project={project} mode="spin" size="lg" />
+          </div>
         </div>
 
         <h3 id={titleId} className={styles.title}>
           {project.title}
         </h3>
-
-        <p className={styles.subMeta}>
-          <span className={styles.ratingBox} aria-hidden="true">
-            {ratingLabel}
-          </span>
-          <span className={styles.genreLabel}>
-            <span className={styles.genrePrefix}>TYPE:</span> {genreLabel}
-          </span>
-        </p>
 
         <p className={styles.description}>{project.description}</p>
 
@@ -173,10 +183,47 @@ export function ProjectDetailModal({
           </PixelButton>
         </div>
 
-        <footer className={styles.hints} aria-hidden="true">
-          <span>X OPEN REPO</span>
-          <span>△ LIVE SITE</span>
-          <span>O CLOSE / ESC</span>
+        <footer className={styles.hints}>
+          <a
+            className={styles.hint}
+            href={project.githubUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Press X to open"
+            aria-keyshortcuts="X"
+            aria-label={`Open ${project.title} repo`}
+          >
+            X OPEN REPO
+          </a>
+          {project.liveUrl ? (
+            <a
+              className={styles.hint}
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Press T to open"
+              aria-keyshortcuts="T"
+              aria-label={`Open the live site for ${project.title}`}
+            >
+              △ LIVE SITE
+            </a>
+          ) : (
+            <span
+              className={`${styles.hint} ${styles.hintDisabled}`}
+              aria-disabled="true"
+            >
+              △ LIVE SITE N/A
+            </span>
+          )}
+          <button
+            type="button"
+            className={styles.hint}
+            onClick={onClose}
+            title="Press O or Escape to close"
+            aria-keyshortcuts="O Escape"
+          >
+            O CLOSE / ESC
+          </button>
         </footer>
       </div>
     </div>
