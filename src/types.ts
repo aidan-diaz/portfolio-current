@@ -24,7 +24,7 @@ export type Project = {
   icon?: string;
 };
 
-export type SocialId = "github" | "linkedin" | "email" | "twitter";
+export type SocialId = "github" | "linkedin" | "email" | "twitter" | "calendly";
 
 export type SocialLink = {
   id: SocialId;

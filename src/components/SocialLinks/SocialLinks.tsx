@@ -65,6 +65,8 @@ function SocialIcon({ id }: { id: SocialId }): ReactNode {
       return <EmailIcon />;
     case "twitter":
       return <TwitterIcon />;
+    case "calendly":
+      return <CalendlyIcon />;
     default:
       return null;
   }
@@ -79,11 +81,19 @@ const SVG_PROPS = {
 };
 
 function GithubIcon() {
+  /*
+   * Chunky pixel-art Octocat. Body is built from horizontal bands with the
+   * top + bottom corners trimmed by 1-2 px so it reads as round at 16x16.
+   * The two 2x2 eye cutouts use opposite-winding subpaths (down-right-up-left)
+   * inside the main body band — same trick LinkedinIcon uses for its frame
+   * hole, so the eyes always show whatever the button background is (no
+   * hardcoded fill, hover/light/dark all stay correct).
+   */
   return (
     <svg {...SVG_PROPS}>
       <path
         fill="currentColor"
-        d="M5 1h6v1h1v1h1v1h1v6h-1v1h-1v1h-1v1h-1v-2h-1v-1h-1v1h-1v2H6v-1H5v-1H4v1H3v-1H2v-1H1V4h1V3h1V2h1V1h1zM6 12h1v1H6zM5 12h1v1H5zM4 12h1v1H4zM6 11h1v1H6z"
+        d="M4 2h8v1H4zM3 3h10v1H3zM2 4h12v8H2zM3 12h10v1H3zM4 13h2v2H4zM10 13h2v2h-2zM5 6v2h2V6zM9 6v2h2V6z"
       />
     </svg>
   );
@@ -116,7 +126,18 @@ function TwitterIcon() {
     <svg {...SVG_PROPS}>
       <path
         fill="currentColor"
-        d="M1 2h3v1h1v1h1v1h1V4h1V3h1V2h1v1h1v1H9v1H8v1H7v1H6v2H5v1H4v1H3v1H2v1h2v-1h2v-1h1v-1h1v-1h1v-1h1v1h1v1h1v1h1v1h1v1h-1v1h-3v-1h-1v-1h-1v-1H7v1H6v1H5v1H1v-1h1v-1h1V9H2V8h1V7h1V6H3V5H2V4H1V2z"
+        d="M2 2h2v1H2zM12 2h2v1h-2zM3 3h2v1H3zM11 3h2v1h-2zM4 4h2v1H4zM10 4h2v1h-2zM5 5h2v1H5zM9 5h2v1H9zM6 6h4v1H6zM7 7h2v1H7zM6 8h4v1H6zM5 9h2v1H5zM9 9h2v1H9zM4 10h2v1H4zM10 10h2v1h-2zM3 11h2v1H3zM11 11h2v1h-2zM2 12h2v1H2zM12 12h2v1h-2zM1 13h2v1H1zM13 13h2v1h-2z"
+      />
+    </svg>
+  );
+}
+
+function CalendlyIcon() {
+  return (
+    <svg {...SVG_PROPS}>
+      <path
+        fill="currentColor"
+        d="M4 1h2v1H4zM10 1h2v1h-2zM2 2h12v2H2zM2 4h1v11H2zM13 4h1v11h-1zM2 14h12v1H2zM5 7h1v1H5zM8 7h1v1H8zM11 7h1v1h-1zM5 11h1v1H5zM8 11h1v1H8zM11 11h1v1h-1z"
       />
     </svg>
   );

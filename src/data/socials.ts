@@ -31,4 +31,10 @@ export const SOCIAL_LINKS: ReadonlyArray<SocialLink> = [
     href: "https://twitter.com/",
     description: "Twitter profile",
   },
+  {
+    id: "calendly",
+    label: "Calendly",
+    href: "https://calendly.com/diaz-aidan-d/30min",
+    description: "Book a 30-minute call",
+  },
 ];
