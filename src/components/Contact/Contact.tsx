@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { FormEvent } from "react";
 import { PixelButton } from "../PixelButton/PixelButton";
 import { SocialLinks } from "../SocialLinks/SocialLinks";
@@ -17,12 +17,39 @@ type FormState = {
   botField: string;
 };
 
+type FieldKey = "name" | "email" | "message";
+type FieldErrors = Partial<Record<FieldKey, string>>;
+
 const INITIAL: FormState = {
   name: "",
   email: "",
   message: "",
   botField: "",
 };
+
+/**
+ * Reasonable email shape check: a local part, an `@`, a domain, a dot, and a
+ * TLD — with no whitespace anywhere. Not a full RFC 5322 validator (those are
+ * famously gnarly), but catches the typo-class mistakes we actually care about.
+ */
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validate(form: FormState): FieldErrors {
+  const errors: FieldErrors = {};
+  if (form.name.trim().length === 0) {
+    errors.name = "Please enter your name.";
+  }
+  const trimmedEmail = form.email.trim();
+  if (trimmedEmail.length === 0) {
+    errors.email = "Please enter your email address.";
+  } else if (!EMAIL_PATTERN.test(trimmedEmail)) {
+    errors.email = "Please enter a valid email address.";
+  }
+  if (form.message.trim().length === 0) {
+    errors.message = "Please enter a message.";
+  }
+  return errors;
+}
 
 /**
  * Encodes a flat object as `application/x-www-form-urlencoded`, which is the
@@ -45,6 +72,11 @@ export function Contact({ headingId }: ContactProps) {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const messageRef = useRef<HTMLTextAreaElement>(null);
 
   const emailLink = SOCIAL_LINKS.find((l) => l.id === "email");
 
@@ -52,6 +84,24 @@ export function Contact({ headingId }: ContactProps) {
     e.preventDefault();
     if (status === "submitting") return;
 
+    const errors = validate(form);
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      setStatus("idle");
+      setError(null);
+      // Move focus to the first invalid field so keyboard/screen-reader users
+      // know exactly where to fix things.
+      if (errors.name) {
+        nameRef.current?.focus();
+      } else if (errors.email) {
+        emailRef.current?.focus();
+      } else if (errors.message) {
+        messageRef.current?.focus();
+      }
+      return;
+    }
+
+    setFieldErrors({});
     setStatus("submitting");
     setError(null);
 
@@ -62,9 +112,9 @@ export function Contact({ headingId }: ContactProps) {
         body: encode({
           "form-name": FORM_NAME,
           "bot-field": form.botField,
-          name: form.name,
-          email: form.email,
-          message: form.message,
+          name: form.name.trim(),
+          email: form.email.trim(),
+          message: form.message.trim(),
         }),
       });
       if (!response.ok) {
@@ -82,6 +132,16 @@ export function Contact({ headingId }: ContactProps) {
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((prev) => ({ ...prev, [key]: value }));
+    // Clear the error for a field as soon as the user starts editing it again,
+    // so the message disappears the moment they're addressing it.
+    if (key === "name" || key === "email" || key === "message") {
+      setFieldErrors((prev) => {
+        if (!prev[key]) return prev;
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+    }
   }
 
   return (
@@ -131,8 +191,11 @@ export function Contact({ headingId }: ContactProps) {
               Name
             </label>
             <input
+              ref={nameRef}
               id="contact-name"
-              className={styles.input}
+              className={`${styles.input}${
+                fieldErrors.name ? ` ${styles.inputInvalid}` : ""
+              }`}
               name="name"
               type="text"
               required
@@ -140,7 +203,16 @@ export function Contact({ headingId }: ContactProps) {
               value={form.name}
               onChange={(e) => update("name", e.target.value)}
               disabled={status === "submitting"}
+              aria-invalid={fieldErrors.name ? true : undefined}
+              aria-describedby={
+                fieldErrors.name ? "contact-name-error" : undefined
+              }
             />
+            {fieldErrors.name ? (
+              <p id="contact-name-error" className={styles.fieldError}>
+                {fieldErrors.name}
+              </p>
+            ) : null}
           </div>
 
           <div className={styles.field}>
@@ -148,16 +220,29 @@ export function Contact({ headingId }: ContactProps) {
               Email
             </label>
             <input
+              ref={emailRef}
               id="contact-email"
-              className={styles.input}
+              className={`${styles.input}${
+                fieldErrors.email ? ` ${styles.inputInvalid}` : ""
+              }`}
               name="email"
               type="email"
               required
               autoComplete="email"
+              inputMode="email"
               value={form.email}
               onChange={(e) => update("email", e.target.value)}
               disabled={status === "submitting"}
+              aria-invalid={fieldErrors.email ? true : undefined}
+              aria-describedby={
+                fieldErrors.email ? "contact-email-error" : undefined
+              }
             />
+            {fieldErrors.email ? (
+              <p id="contact-email-error" className={styles.fieldError}>
+                {fieldErrors.email}
+              </p>
+            ) : null}
           </div>
 
           <div className={styles.field}>
@@ -165,15 +250,27 @@ export function Contact({ headingId }: ContactProps) {
               Message
             </label>
             <textarea
+              ref={messageRef}
               id="contact-message"
-              className={styles.textarea}
+              className={`${styles.textarea}${
+                fieldErrors.message ? ` ${styles.inputInvalid}` : ""
+              }`}
               name="message"
               required
               rows={6}
               value={form.message}
               onChange={(e) => update("message", e.target.value)}
               disabled={status === "submitting"}
+              aria-invalid={fieldErrors.message ? true : undefined}
+              aria-describedby={
+                fieldErrors.message ? "contact-message-error" : undefined
+              }
             />
+            {fieldErrors.message ? (
+              <p id="contact-message-error" className={styles.fieldError}>
+                {fieldErrors.message}
+              </p>
+            ) : null}
           </div>
 
           <div className={styles.actionsRow}>

@@ -94,6 +94,26 @@
     0 0 0 var(--border-width-1) var(--color-accent);
 }
 
+.inputInvalid,
+.inputInvalid:hover {
+  border-color: var(--color-danger);
+}
+
+.inputInvalid:focus {
+  border-color: var(--color-danger);
+  box-shadow: inset 2px 2px 0 0 var(--color-bg),
+    0 0 0 var(--border-width-1) var(--color-danger);
+}
+
+.fieldError {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.625rem;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-danger);
+  text-transform: uppercase;
+}
+
 .textarea {
   resize: vertical;
   min-height: 8rem;
