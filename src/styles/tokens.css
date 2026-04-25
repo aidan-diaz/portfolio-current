@@ -6,34 +6,66 @@
  * consistent and tweaking the look is a one-file change.
  */
 
-:root {
-  /* ----- Palette --------------------------------------------------------- */
-  /* Background layers (deep navy night-sky) */
-  --color-bg: #0f0f1b;
-  --color-bg-raised: #1a1a2e;
-  --color-bg-sunken: #08080f;
+/* ----- Theme palettes ---------------------------------------------------- */
+/*
+ * Color tokens are split per theme. Token names are identical across themes,
+ * so component CSS never has to branch — flipping `data-theme` on <html>
+ * swaps the entire palette via the cascade.
+ */
 
-  /* Foreground / text */
-  --color-fg: #f4f1de;
-  --color-fg-muted: #c9c5b3;
-  --color-fg-dim: #7a7766;
+:root[data-theme="ps1"] {
+  /* PS1 light — muted olives + PS-button accents.
+   * Accent / yellow / fg-muted were darkened from the original plan palette
+   * so text combos against --color-bg pass WCAG AA (4.5:1). In a light
+   * theme, accent-strong is *darker* than accent (hover fills in deeper)
+   * since brightening the accent would cross under the contrast threshold. */
+  --color-bg: #c8c9b5;
+  --color-bg-raised: #d4d3c2;
+  --color-bg-sunken: #b2b39f;
 
-  /* Brand accents */
-  --color-accent: #9bf06a;        /* neon green — primary CTA, highlights */
-  --color-accent-strong: #b9ff8c; /* hover/active state */
-  --color-magenta: #f06aae;       /* secondary accent, badges */
-  --color-yellow: #ffd166;        /* tertiary accent, "stats" chips */
-  --color-cyan: #6ad7f0;          /* link / info */
+  --color-fg: #3d423c;
+  --color-fg-muted: #4f5249;       /* 4.73:1 on bg — body text safe */
+  --color-fg-dim: #7a7766;         /* decorative only; not used as body text */
 
-  /* Status */
+  --color-accent: #2f5926;          /* PS-green X, darkened — 4.84:1 on bg */
+  --color-accent-strong: #244a1e;   /* hover/active — 6.02:1 on bg */
+  --color-magenta: #a85580;         /* muted PS-pink square (decorative) */
+  --color-yellow: #5e4516;          /* warm ochre, darkened — 5.34:1 on bg */
+  --color-cyan: #3a6a8a;            /* muted PS-blue triangle */
+
+  --color-danger: #b34040;
+  --color-success: #2f5926;
+
+  --color-border: #3d423c;
+  --color-border-strong: #1f221d;
+  --color-shadow: #3d423c;          /* hard pixel shadows stay dark, not pure black */
+}
+
+:root[data-theme="ps2"] {
+  /* PS2 dark — BIOS blue-black + PS-button accents */
+  --color-bg: #070d22;
+  --color-bg-raised: #0e1a3d;
+  --color-bg-sunken: #03060f;
+
+  --color-fg: #e6ecf7;
+  --color-fg-muted: #a8b4cc;
+  --color-fg-dim: #6878a0;
+
+  --color-accent: #4a9eff;        /* PS2 BIOS blue — primary CTA */
+  --color-accent-strong: #7ab8ff; /* hover/active state */
+  --color-magenta: #ff6aae;       /* PS pink square */
+  --color-yellow: #c8a96a;        /* toned-down ochre, used minimally */
+  --color-cyan: #6acfff;
+
   --color-danger: #ff6b6b;
-  --color-success: #9bf06a;
+  --color-success: #6ade8a;
 
-  /* Borders & shadows (no blur — hard pixel edges) */
-  --color-border: #f4f1de;
+  --color-border: #4a9eff;
   --color-border-strong: #ffffff;
   --color-shadow: #000000;
+}
 
+:root {
   /* ----- Typography ------------------------------------------------------ */
   --font-display: "Press Start 2P", "Courier New", ui-monospace, monospace;
   --font-body: "VT323", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;

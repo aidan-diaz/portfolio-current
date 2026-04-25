@@ -1,3 +1,4 @@
+import { ThemeToggle } from "../ThemeToggle/ThemeToggle";
 import styles from "./Navbar.module.css";
 
 type NavLink = {
@@ -45,6 +46,10 @@ export function Navbar() {
             ))}
           </ul>
         </nav>
+
+        <div className={styles.toggleSlot}>
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );

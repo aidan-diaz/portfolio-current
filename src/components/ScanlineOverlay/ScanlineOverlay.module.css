@@ -8,7 +8,46 @@
 .scanlines {
   position: absolute;
   inset: 0;
-  /* Pair of repeating gradients: thin scanlines + chunkier RGB stripe. */
+  /*
+   * Pair of repeating gradients: thin scanlines + chunkier RGB stripe.
+   * Defaults are tuned for PS1 (light): low alpha so multiply doesn't read
+   * as grime on the beige background. PS2 (dark) overrides below crank
+   * the contrast back up to a proper CRT.
+   */
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.1) 0px,
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.02) 0px,
+      rgba(255, 255, 255, 0.02) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  mix-blend-mode: multiply;
+  opacity: 0.4;
+  animation: scanlineDrift 6s steps(60, end) infinite;
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  /* Subtle CRT corner darkening — radial gradient with no blur on the inside. */
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(0, 0, 0, 0.18) 100%
+  );
+  mix-blend-mode: multiply;
+}
+
+/* PS2 (dark) — restore the heavier original CRT values. */
+:global(:root[data-theme="ps2"]) .scanlines {
   background-image:
     repeating-linear-gradient(
       to bottom,
@@ -24,21 +63,15 @@
       transparent 1px,
       transparent 2px
     );
-  mix-blend-mode: multiply;
   opacity: 0.55;
-  animation: scanlineDrift 6s steps(60, end) infinite;
 }
 
-.vignette {
-  position: absolute;
-  inset: 0;
-  /* Subtle CRT corner darkening — radial gradient with no blur on the inside. */
+:global(:root[data-theme="ps2"]) .vignette {
   background: radial-gradient(
     ellipse at center,
     transparent 55%,
     rgba(0, 0, 0, 0.35) 100%
   );
-  mix-blend-mode: multiply;
 }
 
 @keyframes scanlineDrift {

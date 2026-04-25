@@ -117,10 +117,26 @@
   border-bottom-color: var(--color-accent);
 }
 
+.toggleSlot {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
 @media (max-width: 720px) {
   .inner {
     flex-wrap: wrap;
     gap: var(--space-3);
+  }
+
+  /* Order: brand → toggle → nav (nav drops to its own row) */
+  .brand {
+    order: 1;
+  }
+
+  .toggleSlot {
+    order: 2;
+    margin-left: auto;
   }
 
   .nav {
