@@ -1,4 +1,5 @@
 import { Avatar } from "../Avatar/Avatar";
+import { DialogBox } from "../DialogBox/DialogBox";
 import styles from "./AboutMe.module.css";
 
 const PHOTO_SRC = "/images/headshot2.jpg";
@@ -23,9 +24,6 @@ export function AboutMe({ headingId }: AboutMeProps) {
   return (
     <div className={styles.about}>
       <header className={styles.header}>
-        <p className={styles.eyebrow} aria-hidden="true">
-          ▶ PROFILE
-        </p>
         <h2 id={headingId} className={styles.title}>
           About Me
         </h2>
@@ -44,14 +42,15 @@ export function AboutMe({ headingId }: AboutMeProps) {
           </figcaption>
         </figure>
 
-        <div className={styles.bio}>
-
-          {BIO.map((paragraph, i) => (
-            <p key={i} className={styles.paragraph}>
-              {paragraph}
-            </p>
-          ))}
-        </div>
+        <DialogBox title="PROFILE" tone="magenta">
+          <div className={styles.bio}>
+            {BIO.map((paragraph, i) => (
+              <p key={i} className={styles.paragraph}>
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        </DialogBox>
       </div>
     </div>
   );

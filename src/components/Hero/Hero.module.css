@@ -9,19 +9,7 @@
 .copy {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-}
-
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 0.625rem;
-  letter-spacing: var(--letter-spacing-display);
-  color: var(--color-accent);
-  text-transform: uppercase;
+  gap: var(--space-5);
 }
 
 .title {
