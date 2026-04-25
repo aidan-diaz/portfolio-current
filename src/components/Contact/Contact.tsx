@@ -135,10 +135,11 @@ export function Contact({ headingId }: ContactProps) {
     // Clear the error for a field as soon as the user starts editing it again,
     // so the message disappears the moment they're addressing it.
     if (key === "name" || key === "email" || key === "message") {
+      const fieldKey = key as FieldKey;
       setFieldErrors((prev) => {
-        if (!prev[key]) return prev;
+        if (!prev[fieldKey]) return prev;
         const next = { ...prev };
-        delete next[key];
+        delete next[fieldKey];
         return next;
       });
     }
