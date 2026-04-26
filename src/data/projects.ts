@@ -27,7 +27,7 @@ export const PROJECTS: ReadonlyArray<Project> = [
     icon: "/images/huddleup.png",
     githubUrl: "https://github.com/aidan-diaz/huddleup",
     techStack: ["React", "Node", "Convex", "Clerk", "LiveKit"],
-    liveUrl: "https://huddle-up-xi.vercel.app/t",
+    liveUrl: "https://huddle-up-xi.vercel.app",
   },
   {
     id: "nanochat",
