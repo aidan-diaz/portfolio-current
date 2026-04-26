@@ -39,6 +39,16 @@ export const PROJECTS: ReadonlyArray<Project> = [
     techStack: ["Python", "PyTorch", "Flask"],
   },
   {
+    id: "cookbookcorner",
+    title: "Cookbook Corner",
+    description:
+      "A full-stack recipe management application where users can create, organize, and manage their personal cookbook and grocery lists.",
+    icon: "/images/cookbookcorner.png",
+    githubUrl: "https://github.com/aidan-diaz/cookbook-corner",
+    techStack: ["React", "TailwindCSS", "Node", "Express", "MongoDB", "Clerk",],
+    liveUrl: "https://cookbook-corner.onrender.com",
+  },
+  {
     id: "neuroflow",
     title: "NeuroFlow",
     description:
@@ -55,7 +65,7 @@ export const PROJECTS: ReadonlyArray<Project> = [
       "A hitlisting application that allows users to keep track of companies that they are looking to apply to during their job hunt.",
     icon: "/images/careerClutchThumbnail.png",
     githubUrl: "https://github.com/aidan-diaz/careerclutch",
-    techStack: ["React", "Tailwind", "JSON Server"],
+    techStack: ["React", "TailwindCSS", "JSON Server"],
     liveUrl: "https://career-clutch.netlify.app/",
   },
   {
