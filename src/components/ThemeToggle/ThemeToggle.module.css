@@ -50,10 +50,17 @@
   align-items: center;
 }
 
-@media (max-width: 420px) {
-  /* Collapse to just the glyph on the tiniest screens to save horizontal space.
+@media (max-width: 600px) {
+  /* Collapse to just the glyph on small screens to save horizontal space.
      The accessible name is on the button itself, so the visible text label is
-     decorative and safe to hide. */
+     decorative and safe to hide. Tightened padding + min-width keep the button
+     a compact square so it stops crowding the brand mark on the top row. */
+  .toggle {
+    gap: 0;
+    min-width: 44px;
+    padding: var(--space-2);
+  }
+
   .label {
     position: absolute;
     width: 1px;

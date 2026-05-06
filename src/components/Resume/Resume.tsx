@@ -229,13 +229,13 @@ export function Resume({ headingId }: ResumeProps) {
                       role="region"
                       aria-label="Resume PDF summary"
                     >
-                      <div className={styles.fallbackCard}>
-                        RESUME.PDF
-                        <p className={styles.fallbackMeta}>
-                          Preview unavailable in this view — use Download or
-                          Open.
-                        </p>
-                      </div>
+                      <img
+                        src="/images/resumeScreenshot.png"
+                        alt="Aidan Diaz resume preview"
+                        className={styles.fallbackImage}
+                        loading="lazy"
+                        decoding="async"
+                      />
                     </div>
                   </div>
                   <div className={styles.actionsRow}>
