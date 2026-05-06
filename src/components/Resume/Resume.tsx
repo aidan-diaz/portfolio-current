@@ -153,15 +153,10 @@ export function Resume({ headingId }: ResumeProps) {
           Resume
         </h2>
         <p className={styles.lede}>
-          Drag the resume disc into the console slot to boot the CRT, or use
-          the keyboard shortcut on the disc.
+          Drag the disc into the console slot to boot the CRT, or focus it
+          and press Enter.
         </p>
       </header>
-
-      <p className={styles.hint}>
-        Drag the disc into the slot, or focus the disc and press Enter to
-        insert.
-      </p>
 
       <div className={styles.stage}>
         <div className={styles.tv}>
