@@ -955,10 +955,56 @@
   }
 }
 
-.ejectRow {
-  display: flex;
+/* Anchored to the top-right of the .console cabinet. Right offset matches the
+   console's horizontal padding so its right edge lines up with the right edge
+   of .consoleFront below it. Lives in the DOM at all times so the cabinet
+   shape doesn't shift when the disc loads — disabled state shows it dimmed
+   and unclickable. */
+.consoleEjectButton {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-4);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  width: 100%;
+  height: 18px;
+  padding: 0 6px;
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-console-fg);
+  background: var(--color-console-bg-sunken);
+  border: var(--border-width-1) var(--border-style) var(--color-console-border-strong);
+  box-shadow: var(--shadow-pixel-sm);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    opacity var(--transition-fast);
+}
+
+.consoleEjectButton:hover:not(:disabled),
+.consoleEjectButton:focus-visible:not(:disabled) {
+  background: var(--color-console-accent);
+  color: var(--color-console-bg);
+  transform: translate(-1px, -1px);
+}
+
+.consoleEjectButton:active:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow: 0 0 0 0 var(--color-shadow);
+}
+
+.consoleEjectButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  color: var(--color-console-fg-dim);
+  box-shadow: none;
 }
 
 .srOnly {

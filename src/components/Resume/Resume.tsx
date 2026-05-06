@@ -281,6 +281,19 @@ export function Resume({ headingId }: ResumeProps) {
 
         <div className={styles.consoleColumn}>
           <div className={styles.console}>
+            <button
+              type="button"
+              className={styles.consoleEjectButton}
+              onClick={eject}
+              disabled={phase !== "ready"}
+              aria-label={
+                phase === "ready"
+                  ? "Eject resume disc"
+                  : "Eject (no disc loaded)"
+              }
+            >
+              Eject
+            </button>
             <div className={styles.consoleTop}>
               <div className={styles.vent} aria-hidden="true">
                 <span />
@@ -343,13 +356,6 @@ export function Resume({ headingId }: ResumeProps) {
             </button>
           </div>
 
-          {phase === "ready" ? (
-            <div className={styles.ejectRow}>
-              <PixelButton type="button" variant="ghost" size="sm" onClick={eject}>
-                Eject
-              </PixelButton>
-            </div>
-          ) : null}
         </div>
       </div>
     </div>
