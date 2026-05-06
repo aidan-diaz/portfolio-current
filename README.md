@@ -2,7 +2,7 @@
 
 Retro pixel-art portfolio for Aidan Diaz. Built with **Vite + React 19 + TypeScript**, plain **CSS Modules**, and **framer-motion** for in-view section transitions. Deploys to **Netlify** with **Netlify Forms** wired into the contact section.
 
-Live site: https://aidandiaz.netlify.app/ (replaces the old HTML5Up build)
+Live site: https://aidandiaz.com
 
 ---
 
