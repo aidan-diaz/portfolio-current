@@ -423,9 +423,14 @@
   justify-content: flex-start;
   gap: var(--space-2);
   padding: 0;
-  flex: 1;
-  min-height: 0;
+  /* Pinned to fill .embedArea so overflow-y has a constrained height to scroll
+     against — otherwise the block child grows to image height and never
+     triggers its own scrollbar. */
+  position: absolute;
+  inset: 0;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   background: #fff;
 }
 
@@ -460,6 +465,42 @@
   border-top: var(--border-width-1) var(--border-style) var(--color-border);
   background: rgba(0, 0, 0, 0.08);
   justify-content: center;
+}
+
+/* On small screens the always-available .mobileActions row below the TV
+   replaces the in-screen actionsRow, so hide this one to avoid showing the
+   same Download / Open buttons twice. */
+@media (max-width: 600px) {
+  .actionsRow {
+    display: none;
+  }
+}
+
+/* Always-available action row that lives outside the CRT screen. Hidden on
+   desktop (the in-screen actionsRow handles it after booting); shown on
+   small screens where the in-screen row is cramped and the disc-boot flow is
+   easy to miss. */
+.mobileActions {
+  display: none;
+  /* Stay side-by-side on small screens — never wrap. */
+  flex-wrap: nowrap;
+  gap: var(--space-2);
+  justify-content: center;
+  align-items: stretch;
+  margin-top: var(--space-3);
+}
+
+/* Each button takes an equal share of the row and shrinks down rather than
+   wrapping, so they stay paired on tight viewports. */
+.mobileActions > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+@media (max-width: 600px) {
+  .mobileActions {
+    display: flex;
+  }
 }
 
 /* ----- CRT control panel + feet ----------------------------------------- */

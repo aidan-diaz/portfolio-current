@@ -277,6 +277,35 @@ export function Resume({ headingId }: ResumeProps) {
             <span className={styles.tvFoot} />
             <span className={styles.tvFoot} />
           </div>
+
+          {/* Mobile-only mirror of the in-screen actionsRow. Only renders once
+              the disc is loaded so it stays tied to the same boot/eject flow
+              the desktop layout uses — no orphaned buttons after eject. */}
+          {phase === "ready" ? (
+            <div className={styles.mobileActions}>
+              <PixelButton
+                as="a"
+                href="/resume.pdf"
+                download="Aidan-Diaz-Resume.pdf"
+                variant="primary"
+                size="md"
+              >
+                Download
+              </PixelButton>
+              <PixelButton
+                as="a"
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="ghost"
+                size="md"
+                iconRight={<span aria-hidden="true">↗</span>}
+                aria-label="Open resume PDF in a new tab"
+              >
+                Open
+              </PixelButton>
+            </div>
+          ) : null}
         </div>
 
         <div className={styles.consoleColumn}>
