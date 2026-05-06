@@ -6,6 +6,7 @@ import { Hero } from "./components/Hero/Hero";
 import { IntroScreen } from "./components/IntroScreen/IntroScreen";
 import { Navbar } from "./components/Navbar/Navbar";
 import { Portfolio } from "./components/Portfolio/Portfolio";
+import { Resume } from "./components/Resume/Resume";
 import { ScanlineOverlay } from "./components/ScanlineOverlay/ScanlineOverlay";
 import { SectionTransition } from "./components/SectionTransition/SectionTransition";
 import styles from "./App.module.css";
@@ -14,7 +15,7 @@ import styles from "./App.module.css";
  * App shell.
  *
  * Order: IntroScreen overlay (mounts on top until dismissed) → Navbar →
- * <main> with the four anchored sections (Hero, Portfolio, AboutMe, Contact)
+ * <main> with the five anchored sections (Hero, Portfolio, AboutMe, Resume, Contact)
  * → Footer → ScanlineOverlay (CRT effect, pinned to viewport).
  */
 export default function App() {
@@ -31,6 +32,9 @@ export default function App() {
         </SectionShell>
         <SectionShell id="about">
           {(headingId) => <AboutMe headingId={headingId} />}
+        </SectionShell>
+        <SectionShell id="resume">
+          {(headingId) => <Resume headingId={headingId} />}
         </SectionShell>
         <SectionShell id="contact">
           {(headingId) => <Contact headingId={headingId} />}

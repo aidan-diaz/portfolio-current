@@ -1,0 +1,980 @@
+.resume {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.625rem;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-cyan);
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-fg);
+  margin: 0;
+}
+
+.lede {
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-lg);
+  color: var(--color-fg-muted);
+  margin: 0;
+  max-width: 60ch;
+}
+
+.hint {
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-md);
+  color: var(--color-fg-muted);
+  margin: 0;
+}
+
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: var(--space-6);
+  align-items: start;
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .stage {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ----- CRT TV ----------------------------------------------------------- */
+
+.tv {
+  position: relative;
+  background: var(--color-bg-raised);
+  border: var(--border-width-2) var(--border-style) var(--color-border);
+  box-shadow:
+    var(--shadow-pixel-lg),
+    inset 0 0 0 2px var(--color-border-strong),
+    inset 4px 4px 0 0 rgba(255, 255, 255, 0.04),
+    inset -4px -4px 0 0 rgba(0, 0, 0, 0.25);
+  padding: var(--space-5);
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.tvFrame {
+  aspect-ratio: 4 / 3;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--color-border);
+  border: var(--border-width-2) var(--border-style) var(--color-border-strong);
+  box-shadow: inset 3px 3px 0 0 rgba(0, 0, 0, 0.15);
+  padding: var(--space-2);
+}
+
+.tvBezelInner {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-border-strong);
+  padding: var(--space-3);
+  box-shadow:
+    inset 2px 2px 0 0 rgba(0, 0, 0, 0.55),
+    inset -2px -2px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+.screen {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 55%,
+      rgba(0, 0, 0, 0.35) 100%
+    ),
+    radial-gradient(
+      ellipse at center,
+      var(--color-screen-glow) 0%,
+      transparent 70%
+    ),
+    var(--color-screen-bg);
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.6),
+    inset 0 0 24px var(--color-screen-glow);
+}
+
+.screen::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  pointer-events: none;
+  z-index: 4;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
+  animation: crtScanBeam 4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen::before {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+@keyframes crtScanBeam {
+  0% {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.screenPowerOn {
+  animation: crtPowerOn 360ms ease-out;
+}
+
+@keyframes crtPowerOn {
+  0% {
+    transform: scaleY(0.02);
+    background-color: rgba(255, 255, 255, 0.9);
+    filter: brightness(2.2);
+  }
+  35% {
+    transform: scaleY(0.06);
+    filter: brightness(1.8);
+  }
+  60% {
+    transform: scaleY(1);
+    filter: brightness(1.4);
+  }
+  100% {
+    transform: scaleY(1);
+    filter: brightness(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screenPowerOn {
+    animation: none;
+  }
+}
+
+.screenPowerOff {
+  animation: crtPowerOff 520ms cubic-bezier(0.55, 0, 0.7, 0.2) forwards;
+  transform-origin: 50% 50%;
+}
+
+/* Classic CRT shutdown: image collapses vertically into a bright horizontal
+   line, flashes white, then fades to black. Shares transform-origin with
+   crtPowerOn so the visual axis matches. */
+@keyframes crtPowerOff {
+  0% {
+    transform: scaleY(1);
+    filter: brightness(1);
+    background-color: transparent;
+  }
+  35% {
+    transform: scaleY(1);
+    filter: brightness(1.5);
+  }
+  55% {
+    transform: scaleY(0.06);
+    filter: brightness(2.4);
+    background-color: rgba(255, 255, 255, 0.85);
+  }
+  75% {
+    transform: scaleY(0.02);
+    filter: brightness(1.6);
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+  100% {
+    transform: scaleY(0);
+    filter: brightness(0);
+    background-color: rgba(0, 0, 0, 1);
+    opacity: 0.15;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screenPowerOff {
+    animation: none;
+  }
+}
+
+.screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.12) 0px,
+      rgba(0, 0, 0, 0.12) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    repeating-linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.03) 0px,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  mix-blend-mode: multiply;
+  opacity: 0.45;
+}
+
+.screenIdle,
+.screenBoot {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  font-family: var(--font-display);
+  font-size: var(--font-size-display-sm);
+  color: var(--color-accent);
+  text-align: center;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+.screenBoot {
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.bootFlicker {
+  animation: crtFlicker 0.12s steps(2, end) infinite;
+}
+
+@keyframes crtFlicker {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.72;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.bootPrompt {
+  margin: 0;
+}
+
+.bootBarTrack {
+  height: 12px;
+  background: var(--color-bg-raised);
+  border: var(--border-width-1) var(--border-style) var(--color-border);
+  overflow: hidden;
+}
+
+.bootBarFill {
+  height: 100%;
+  width: 0;
+  background: var(--color-accent);
+  box-shadow: var(--shadow-pixel-sm);
+}
+
+.bootBarFillAnimating {
+  animation: bootFill 1.5s linear forwards;
+}
+
+@keyframes bootFill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.screenReady {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.statusBar {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-accent);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--border-width-1) var(--border-style) var(--color-border);
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.embedArea {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.embed {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--color-bg-sunken);
+}
+
+.embedDesktop {
+  display: block;
+}
+
+.embedDesktopHidden {
+  display: none !important;
+}
+
+.pdfFallback {
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  flex: 1;
+  min-height: 0;
+}
+
+.pdfFallbackVisible {
+  display: flex;
+}
+
+@media (max-width: 600px) {
+  .embedDesktop {
+    display: none !important;
+  }
+
+  .pdfFallback {
+    display: flex;
+  }
+}
+
+.fallbackCard {
+  border: var(--border-width-2) var(--border-style) var(--color-border);
+  box-shadow: var(--shadow-pixel-md);
+  padding: var(--space-4);
+  background: var(--color-bg-raised);
+  font-family: var(--font-display);
+  font-size: var(--font-size-display-sm);
+  color: var(--color-fg);
+  text-align: center;
+}
+
+.fallbackMeta {
+  margin: var(--space-2) 0 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-md);
+  color: var(--color-fg-muted);
+}
+
+.actionsRow {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-top: var(--border-width-1) var(--border-style) var(--color-border);
+  background: rgba(0, 0, 0, 0.08);
+  justify-content: center;
+}
+
+/* ----- CRT control panel + feet ----------------------------------------- */
+
+.tvControlPanel {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-bg-sunken);
+  border: var(--border-width-1) var(--border-style) var(--color-border-strong);
+  box-shadow: inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+.tvModelPlate {
+  font-family: var(--font-display);
+  font-size: 0.4rem;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-fg-muted);
+  text-transform: uppercase;
+  padding: 2px 4px;
+  border: var(--border-width-1) var(--border-style) var(--color-border);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.tvSpeakerGrille {
+  height: 14px;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-border-strong) 0 2px,
+    transparent 2px 4px
+  );
+  border-top: var(--border-width-1) var(--border-style) rgba(0, 0, 0, 0.4);
+  border-bottom: var(--border-width-1) var(--border-style)
+    rgba(255, 255, 255, 0.04);
+}
+
+.tvKnobs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.tvKnob {
+  position: relative;
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 30%,
+    var(--color-fg-dim) 0%,
+    var(--color-border-strong) 70%
+  );
+  border: var(--border-width-1) var(--border-style) var(--color-border-strong);
+  box-shadow: var(--shadow-pixel-sm);
+}
+
+.tvKnob::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 2px;
+  width: 2px;
+  height: 6px;
+  background: var(--color-fg);
+  transform: translateX(-50%) rotate(35deg);
+  transform-origin: 50% 100%;
+}
+
+.tvKnob:nth-child(2)::before {
+  transform: translateX(-50%) rotate(-25deg);
+}
+
+.tvPowerButton {
+  display: block;
+  width: 14px;
+  height: 14px;
+  background: var(--color-magenta);
+  border: var(--border-width-1) var(--border-style) var(--color-border-strong);
+  box-shadow: var(--shadow-pixel-sm);
+}
+
+.tvFeet {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--space-5);
+  margin-top: calc(var(--space-1) * -1);
+}
+
+.tvFoot {
+  display: block;
+  width: 16px;
+  height: 8px;
+  background: var(--color-border-strong);
+  box-shadow: var(--shadow-pixel-sm);
+}
+
+/* ----- Console column + disc -------------------------------------------- */
+
+.consoleColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  align-items: center;
+  min-width: 0;
+  width: 100%;
+}
+
+.discArea {
+  position: relative;
+  width: 100%;
+  max-width: 220px;
+  min-height: 88px;
+  display: flex;
+  justify-content: center;
+  perspective: 600px;
+}
+
+.disc {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: var(--border-width-2) var(--border-style) var(--color-magenta);
+  background: radial-gradient(
+    circle at center,
+    var(--color-bg-sunken) 18%,
+    var(--color-disc-back) 19%,
+    var(--color-disc-back) 42%,
+    var(--color-disc-back-edge) 43%,
+    var(--color-disc-back-edge) 46%,
+    var(--color-disc-back) 47%,
+    var(--color-disc-back) 100%
+  );
+  box-shadow: var(--shadow-pixel-md);
+  cursor: grab;
+  padding: 0;
+  flex-shrink: 0;
+  transition: transform 400ms ease;
+  position: relative;
+  z-index: 5;
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .disc {
+    transition: none;
+  }
+}
+
+.disc:active {
+  cursor: grabbing;
+}
+
+.disc:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.discIdle {
+  transform: translate(0, 0);
+}
+
+.discInserting {
+  animation: discInsert 650ms cubic-bezier(0.45, 0, 0.2, 1) forwards;
+}
+
+.discEjecting {
+  animation: discEject 650ms cubic-bezier(0.4, 0, 0.25, 1) forwards;
+}
+
+.discHidden {
+  display: none;
+}
+
+/* The disc now sits BELOW the console (after `.consoleFeet`) and travels
+   upward into the slot, so the motion reads as feeding a disc into the
+   front of the machine. Slot center is ~138px above the disc's resting
+   center (console 108 + base/feet stack with their negative margins +
+   2 × gap(16) + 44 disc-half). transform-origin: 50% 50% keeps the disc's
+   center on the slot center as it tips flat, so it disappears INTO the
+   slot rather than passing behind/in front of it. */
+@keyframes discInsert {
+  0% {
+    transform: translateY(0) rotateX(0deg);
+    opacity: 1;
+  }
+  12% {
+    transform: translateY(8px) rotateX(0deg);
+    box-shadow: var(--shadow-pixel-lg);
+    opacity: 1;
+  }
+  55% {
+    transform: translateY(-92px) rotateX(15deg);
+    opacity: 1;
+  }
+  78% {
+    transform: translateY(-128px) rotateX(72deg);
+    opacity: 1;
+  }
+  92% {
+    transform: translateY(-136px) rotateX(86deg);
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateY(-140px) rotateX(90deg);
+    opacity: 0;
+  }
+}
+
+/* Mirror image of `discInsert`: disc emerges from the slot (flat, invisible)
+   and rises back to its resting position below the console. */
+@keyframes discEject {
+  0% {
+    transform: translateY(-140px) rotateX(90deg);
+    opacity: 0;
+  }
+  10% {
+    transform: translateY(-136px) rotateX(86deg);
+    opacity: 0.55;
+  }
+  25% {
+    transform: translateY(-128px) rotateX(72deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-92px) rotateX(15deg);
+    opacity: 1;
+  }
+  88% {
+    transform: translateY(8px) rotateX(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .discInserting {
+    animation: discInsertReduced 50ms linear forwards;
+  }
+
+  .discEjecting {
+    animation: discEjectReduced 50ms linear forwards;
+  }
+
+  @keyframes discInsertReduced {
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes discEjectReduced {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.discLabel {
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  color: var(--color-disc-label);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.45);
+}
+
+.console {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 108px;
+  background: var(--color-console-bg);
+  border: var(--border-width-2) var(--border-style) var(--color-console-border);
+  box-shadow:
+    var(--shadow-pixel-lg),
+    inset 0 0 0 2px var(--color-console-border-strong),
+    inset 4px 4px 0 0 rgba(255, 255, 255, 0.04),
+    inset -4px -4px 0 0 rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+}
+
+.console::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 4px;
+  background: var(--color-console-accent);
+  pointer-events: none;
+}
+
+.consoleTop {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-3);
+  margin-top: 2px;
+}
+
+.vent {
+  display: flex;
+  gap: 3px;
+  flex: 1;
+}
+
+.vent span {
+  display: block;
+  width: 10px;
+  height: 10px;
+  background: var(--color-console-bg-sunken);
+  border: var(--border-width-1) var(--border-style) var(--color-console-border);
+}
+
+.consoleFront {
+  flex: 1;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-console-bg-sunken);
+  border: var(--border-width-1) var(--border-style) rgba(0, 0, 0, 0.6);
+  box-shadow:
+    inset 2px 2px 0 0 rgba(0, 0, 0, 0.45),
+    inset -1px -1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+.consoleBrand {
+  font-family: var(--font-display);
+  font-size: 0.4rem;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-console-fg-dim);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--color-console-fg-dim);
+  padding-bottom: 2px;
+  white-space: nowrap;
+}
+
+.consoleControls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.ledWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.ledLabel {
+  font-family: var(--font-display);
+  font-size: 0.4rem;
+  letter-spacing: var(--letter-spacing-display);
+  color: var(--color-console-fg-dim);
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.resetButton {
+  display: block;
+  width: 12px;
+  height: 12px;
+  background: var(--color-console-bg-sunken);
+  border: var(--border-width-1) var(--border-style) var(--color-console-border);
+  box-shadow: var(--shadow-pixel-sm);
+}
+
+.consoleBase {
+  margin-top: calc(var(--space-4) * -1 + var(--space-1));
+  width: 100%;
+  max-width: 320px;
+  height: 6px;
+  background: var(--color-console-border-strong);
+  box-shadow: var(--shadow-pixel-sm);
+}
+
+.consoleFeet {
+  margin-top: calc(var(--space-4) * -1 + 2px);
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 var(--space-4);
+}
+
+.consoleFoot {
+  display: block;
+  width: 16px;
+  height: 8px;
+  background: var(--color-console-border-strong);
+  box-shadow: var(--shadow-pixel-sm);
+}
+
+.led {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: var(--border-width-1) var(--border-style) var(--color-console-border);
+  background: var(--color-fg-dim);
+  flex-shrink: 0;
+}
+
+.ledOn {
+  background: var(--color-success);
+  box-shadow: 0 0 6px var(--color-success);
+}
+
+.ledKick {
+  animation: ledKick 220ms ease-out;
+}
+
+@keyframes ledKick {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 6px var(--color-success);
+  }
+  50% {
+    transform: scale(1.4);
+    box-shadow: 0 0 12px var(--color-success), 0 0 18px var(--color-success);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 6px var(--color-success);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ledKick {
+    animation: none;
+  }
+}
+
+.slot {
+  height: 16px;
+  background: linear-gradient(to bottom, #000, var(--color-console-bg-sunken));
+  border: var(--border-width-2) inset var(--color-console-border);
+  box-shadow:
+    inset 2px 2px 0 0 rgba(0, 0, 0, 0.55),
+    inset 0 -1px 0 0 rgba(255, 255, 255, 0.04);
+}
+
+.slotActive {
+  outline: 2px dashed var(--color-cyan);
+  outline-offset: 2px;
+}
+
+.slotSwallow {
+  animation: slotSwallow 650ms ease-out;
+}
+
+/* Peak the green LED flash around 78% so it lines up with the disc tipping
+   flat into the slot (see `@keyframes discInsert`). */
+@keyframes slotSwallow {
+  0%,
+  60% {
+    box-shadow: inset 2px 2px 0 0 rgba(0, 0, 0, 0.25);
+  }
+  78% {
+    box-shadow:
+      inset 0 4px 0 0 var(--color-accent),
+      inset 2px 2px 0 0 rgba(0, 0, 0, 0.55);
+  }
+  100% {
+    box-shadow: inset 2px 2px 0 0 rgba(0, 0, 0, 0.25);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slotSwallow {
+    animation: none;
+  }
+}
+
+.ejectRow {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.directDownload {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.directDownload:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  margin: var(--space-2) 0 0;
+  clip: auto;
+  overflow: visible;
+  white-space: normal;
+  padding: var(--space-2);
+  background: var(--color-bg-raised);
+  border: var(--border-width-2) var(--border-style) var(--color-border);
+  font-family: var(--font-body);
+  font-size: var(--font-size-body-md);
+  color: var(--color-accent-strong);
+}
+
+.liveRegion {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

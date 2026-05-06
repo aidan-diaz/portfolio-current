@@ -39,6 +39,27 @@
   --color-border: #3d423c;
   --color-border-strong: #1f221d;
   --color-shadow: #3d423c;          /* hard pixel shadows stay dark, not pure black */
+
+  /* Console + screen role tokens.
+   * Light page → console reads as a beige PS1 with muted pink trim,
+   * matching the PS1 era of the page palette. */
+  --color-console-bg: #c8c9b5;
+  --color-console-bg-raised: #d4d3c2;
+  --color-console-bg-sunken: #6f6e60;
+  --color-console-border: #1f221d;
+  --color-console-border-strong: #2b2d23;
+  --color-console-fg: #2b2d23;
+  --color-console-fg-dim: #2b2d23;
+  --color-console-accent: #a85580;
+  --color-screen-bg: var(--color-bg-sunken);
+  --color-screen-glow: transparent;
+
+  /* Disc back: PS1 discs had a black-ink data side.
+   * The "edge" is a slightly lighter band so the stacking-ring detail
+   * still reads against the near-black disc body. */
+  --color-disc-back: #141414;
+  --color-disc-back-edge: #3a3a3a;
+  --color-disc-label: #2b2d23;
 }
 
 :root[data-theme="ps2"] {
@@ -63,6 +84,27 @@
   --color-border: #4a9eff;
   --color-border-strong: #ffffff;
   --color-shadow: #000000;
+
+  /* Console + screen role tokens.
+   * Dark page → console reads as a matte-black PS2 with blue trim,
+   * matching the PS2 era of the page palette. */
+  --color-console-bg: #1a1f2e;
+  --color-console-bg-raised: #232938;
+  --color-console-bg-sunken: #0a0d18;
+  --color-console-border: #4a9eff;
+  --color-console-border-strong: #0a0d18;
+  --color-console-fg: #e6ecf7;
+  --color-console-fg-dim: #7ab8ff;
+  --color-console-accent: #4a9eff;
+  --color-screen-bg: #04101e;
+  --color-screen-glow: rgba(106, 207, 255, 0.22);
+
+  /* Disc back: PS2 discs had a silver/gray data side.
+   * The "edge" is a darker band so the stacking-ring detail reads
+   * against the silver disc body. */
+  --color-disc-back: #b9bcc4;
+  --color-disc-back-edge: #6f7480;
+  --color-disc-label: #e6ecf7;
 }
 
 :root {
