@@ -118,7 +118,6 @@ export function Resume({ headingId }: ResumeProps) {
     beginInsert();
   }
 
-  const discInSlot = phase !== "idle";
   const discInserting = phase === "inserting";
   const discEjecting = phase === "ejecting";
   const discFullyInside = phase === "booting" || phase === "ready";
