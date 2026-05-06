@@ -30,6 +30,7 @@ portfolio-current/
   public/
     images/                # headshots and other portrait assets (Avatar component reads from here)
     projects/              # project thumbnails (optional — placeholder used if missing)
+    resume.pdf             # served by the Resume section's CRT (replace to update résumé)
     favicon.svg            # pixel-art "AD" favicon (16x16 grid, PS2 palette)
   src/
     main.tsx               # bootstraps React
@@ -49,6 +50,7 @@ portfolio-current/
       Hero/                # title, tagline, framed headshot, primary CTAs, social row
       Avatar/              # reusable framed image (used in Hero + AboutMe)
       Portfolio/           # grid + reusable ProjectCard
+      Resume/               # CRT TV + drag-to-load console; embeds public/resume.pdf
       AboutMe/             # photo + bio + "stats"
       Contact/             # Netlify form + status dialog + email fallback
       SocialLinks/         # icon row used in Hero / Contact
@@ -74,6 +76,7 @@ Most things are data-driven so you don't need to touch the markup:
 | Add / edit / remove a project    | `src/data/projects.ts`                                  |
 | Project thumbnails               | Drop into `public/projects/` and reference in the data  |
 | Social URLs (GitHub, etc.)       | `src/data/socials.ts`                                   |
+| Résumé PDF (the disc loads it)   | Replace `public/resume.pdf`                             |
 | Color palette / fonts / spacing  | `src/styles/tokens.css`                                 |
 
 ### Adding a new project
@@ -95,6 +98,21 @@ export const PROJECTS: ReadonlyArray<Project> = [
 ```
 
 That's it — `<Portfolio />` will render a new `<ProjectCard />` automatically and the responsive grid will reflow.
+
+---
+
+## Resume section (CRT + console)
+
+The `Resume` section is a themed, interactive way to view the résumé:
+
+- A **CRT TV** on the left renders the boot sequence and then embeds [`public/resume.pdf`](public/resume.pdf) inside the screen.
+- A **console** on the right (era-matched to the active theme — beige PS1 in light mode, matte-black PS2 in dark mode) accepts a draggable **disc**. Click or drag the disc into the slot to "load" the résumé; press the eject button to swap back to the idle screen.
+- Mobile (≤600px) automatically falls back to a "Open Resume PDF" / "Download" button pair so iOS/Android still get a usable path without trying to embed the PDF.
+- All animations (CRT power-on/off, disc insert/eject, LED kick, scan-beam, boot flicker) are gated on `prefers-reduced-motion`.
+
+To update the résumé, just replace `public/resume.pdf`. Filename and path are referenced from `src/components/Resume/Resume.tsx`; if you rename the file, update the constant there.
+
+The console + screen palette is driven by `--color-console-*` and `--color-screen-*` tokens in [`src/styles/tokens.css`](src/styles/tokens.css), and the disc back / label use `--color-disc-*` tokens — so retheming the hardware is a token edit, not a CSS rewrite.
 
 ---
 
