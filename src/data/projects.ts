@@ -20,6 +20,15 @@ import type { Project } from "../types";
  */
 export const PROJECTS: ReadonlyArray<Project> = [
   {
+    id: "documentAssistant",
+    title: "AI Document Assistant",
+    description: "Privacy-first document assistant with zero-retention architecture. Documents are processed but never stored on servers. All persistent data lives in the user's browser (EntityDB). Backend is stateless.",
+    icon: "/images/documentAssistant.png",
+    githubUrl: "https://github.com/Resilient-Labs/multilingual-ai-document-assistant",
+    techStack: ["TypeScript", "Next.js", "TailwindCSS", "EntityDB", "Hugging Face", "NLLB-200", "Tesseract.js", "Coqui TTS", "LangSmith"],
+    liveUrl: "https://multilingual-ai-document-assistant-sigma.vercel.app",
+  },
+  {
     id: "huddleup",
     title: "HuddleUp",
     description:
